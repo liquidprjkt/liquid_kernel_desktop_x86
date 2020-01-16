@@ -3961,7 +3961,8 @@ static int __init intel_pstate_setup(char *str)
 
 	if (!strcmp(str, "no_cas"))
 		no_cas = true;
-
+	if (!strcmp(str, "enable"))
+		no_load = 0;
 	if (!strcmp(str, "force"))
 		force_load = 1;
 	if (!strcmp(str, "hwp_only"))
