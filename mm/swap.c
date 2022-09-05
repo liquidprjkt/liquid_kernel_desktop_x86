@@ -1110,5 +1110,8 @@ void __init swap_setup(void)
 	 * _really_ don't want to cluster much more
 	 */
 
+	/* Only swap-in pages requested, avoid readahead */
+	page_cluster = 0;
+
 	register_sysctl_init("vm", swap_sysctl_table);
 }
