@@ -384,7 +384,7 @@ static void evdev_detach_client(struct evdev *evdev,
 	spin_lock(&evdev->client_lock);
 	list_del_rcu(&client->node);
 	spin_unlock(&evdev->client_lock);
-	call_rcu(&client->rcu, evdev_reclaim_client);
+	call_rcu_hurry(&client->rcu, evdev_reclaim_client);
 }
 
 static int evdev_open_device(struct evdev *evdev)
