@@ -148,7 +148,7 @@ static struct fw_priv *__allocate_fw_priv(const char *fw_name,
 	INIT_LIST_HEAD(&fw_priv->pending_list);
 #endif
 
-	pr_debug("%s: fw-%s fw_priv=%p\n", __func__, fw_name, fw_priv);
+	pr_info("%s: fw-%s fw_priv=%p\n", __func__, fw_name, fw_priv);
 
 	return fw_priv;
 }
