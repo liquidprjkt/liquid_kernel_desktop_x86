@@ -259,6 +259,67 @@ static int teo_find_shallower_state(struct cpuidle_driver *drv,
 	return state_idx;
 }
 
+static int teo_get_candidate(struct cpuidle_driver *drv,
+			     struct cpuidle_device *dev,
+			     struct teo_cpu *cpu_data,
+			     int idx, unsigned int idx_intercepts)
+{
+	int first_suitable_idx = idx;
+	unsigned int intercepts = 0;
+	int i;
+
+	/*
+	 * Look for the deepest idle state whose target residency had
+	 * not exceeded the idle duration in over a half of the relevant
+	 * cases in the past.
+	 *
+	 * Take the possible duration limitation present if the tick
+	 * has been stopped already into account.
+	 */
+	for (i = idx - 1; i >= 0; i--) {
+		intercepts += cpu_data->state_bins[i].intercepts;
+		if (2 * intercepts > idx_intercepts) {
+			/*
+			 * Use the current state unless it is too
+			 * shallow or disabled, in which case take the
+			 * first enabled state that is deep enough.
+			 */
+			if (teo_state_ok(i, drv) && !dev->states_usage[i].disable) {
+				idx = i;
+				break;
+			}
+
+			idx = first_suitable_idx;
+			break;
+		}
+
+		if (dev->states_usage[i].disable)
+			continue;
+
+		if (teo_state_ok(i, drv)) {
+			/*
+			 * The current state is deep enough, but still
+			 * there may be a better one.
+			 */
+			first_suitable_idx = i;
+			continue;
+		}
+
+		/*
+		 * The current state is too shallow, so if no suitable
+		 * states other than the initial candidate have been
+		 * found, give up (the remaining states to check are
+		 * shallower still), but otherwise the first suitable
+		 * state other than the initial candidate may turn out
+		 * to be preferable.
+		 */
+		if (first_suitable_idx == idx)
+			break;
+	}
+
+	return idx;
+}
+
 /**
  * teo_select - Selects the next idle state to enter.
  * @drv: cpuidle driver containing state data.
@@ -355,63 +416,8 @@ static int teo_select(struct cpuidle_driver *drv, struct cpuidle_device *dev,
 	 * all of the deeper states, a shallower idle state is likely to be a
 	 * better choice.
 	 */
-	if (2 * idx_intercept_sum > cpu_data->total - idx_hit_sum) {
-		int first_suitable_idx = idx;
-
-		/*
-		 * Look for the deepest idle state whose target residency had
-		 * not exceeded the idle duration in over a half of the relevant
-		 * cases in the past.
-		 *
-		 * Take the possible duration limitation present if the tick
-		 * has been stopped already into account.
-		 */
-		intercept_sum = 0;
-
-		for (i = idx - 1; i >= 0; i--) {
-			struct teo_bin *bin = &cpu_data->state_bins[i];
-
-			intercept_sum += bin->intercepts;
-
-			if (2 * intercept_sum > idx_intercept_sum) {
-				/*
-				 * Use the current state unless it is too
-				 * shallow or disabled, in which case take the
-				 * first enabled state that is deep enough.
-				 */
-				if (teo_state_ok(i, drv) &&
-				    !dev->states_usage[i].disable) {
-					idx = i;
-					break;
-				}
-				idx = first_suitable_idx;
-				break;
-			}
-
-			if (dev->states_usage[i].disable)
-				continue;
-
-			if (teo_state_ok(i, drv)) {
-				/*
-				 * The current state is deep enough, but still
-				 * there may be a better one.
-				 */
-				first_suitable_idx = i;
-				continue;
-			}
-
-			/*
-			 * The current state is too shallow, so if no suitable
-			 * states other than the initial candidate have been
-			 * found, give up (the remaining states to check are
-			 * shallower still), but otherwise the first suitable
-			 * state other than the initial candidate may turn out
-			 * to be preferable.
-			 */
-			if (first_suitable_idx == idx)
-				break;
-		}
-	}
+	if (2 * idx_intercept_sum > cpu_data->total - idx_hit_sum)
+		idx = teo_get_candidate(drv, dev, cpu_data, idx, idx_intercept_sum);
 
 	/*
 	 * If there is a latency constraint, it may be necessary to select an
