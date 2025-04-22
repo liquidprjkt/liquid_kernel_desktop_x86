@@ -656,9 +656,8 @@ config COMPACTION
 	  linux-mm@kvack.org.
 
 config COMPACT_UNEVICTABLE_DEFAULT
-	int
+	int "Allow compacting unevictable pages"
 	depends on COMPACTION
-	default 0 if PREEMPT_RT
 	default 1
 
 #
