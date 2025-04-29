@@ -404,6 +404,10 @@ config CPUMASK_OFFSTACK
 config FORCE_NR_CPUS
 	def_bool !SMP
 
+config DETECT_NR_CPUS
+	bool "Auto-detect nr_cpus at compile time"
+	select FORCE_NR_CPUS
+
 config CPU_RMAP
 	bool
 	depends on SMP
