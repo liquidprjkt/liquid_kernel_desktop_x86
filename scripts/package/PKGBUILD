@@ -2,7 +2,7 @@
 # Maintainer: Thomas Weißschuh <linux@weissschuh.net>
 # Contributor: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
 
-pkgbase=${PACMAN_PKGBASE:-linux-upstream}
+pkgbase=${PACMAN_PKGBASE:-linux-liquid}
 pkgname=("${pkgbase}")
 
 _extrapackages=${PACMAN_EXTRAPACKAGES-headers api-headers}
@@ -14,8 +14,8 @@ pkgver="${KERNELRELEASE//-/_}"
 # The PKGBUILD is evaluated multiple times.
 # Running scripts/build-version from here would introduce inconsistencies.
 pkgrel="${KBUILD_REVISION}"
-pkgdesc='Upstream Linux'
-url='https://www.kernel.org/'
+pkgdesc='Liquid Linux'
+url='https://github.com/liquidprjkt/liquid_kernel_desktop_x86'
 # Enable flexible cross-compilation
 arch=(${CARCH})
 license=(GPL-2.0-only)

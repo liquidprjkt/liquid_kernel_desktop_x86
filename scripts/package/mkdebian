@@ -164,7 +164,7 @@ else
 	debian_revision=$("${srctree}/scripts/build-version")
 	packageversion=${upstream_version}-${debian_revision}
 fi
-sourcename=${KDEB_SOURCENAME:-linux-upstream}
+sourcename=${KDEB_SOURCENAME:-linux-liquid}
 
 if [ "$ARCH" = "um" ] ; then
 	packagename=user-mode-linux
@@ -213,7 +213,7 @@ Build-Depends-Arch: bc, bison, flex,
  kmod, libdw-dev:native, libelf-dev:native,
  libssl-dev:native, libssl-dev <!pkg.${sourcename}.nokernelheaders>,
  python3:native, rsync
-Homepage: https://www.kernel.org/
+Homepage: https://github.com/liquidprjkt/liquid_kernel_desktop_x86
 
 Package: $packagename-${KERNELRELEASE}
 Architecture: $debarch

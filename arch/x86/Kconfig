@@ -320,9 +320,9 @@ config X86
 	select SPARSE_IRQ
 	select SYSCTL_EXCEPTION_TRACE
 	select THREAD_INFO_IN_TASK
-	select TRACE_IRQFLAGS_SUPPORT
-	select TRACE_IRQFLAGS_NMI_SUPPORT
-	select USER_STACKTRACE_SUPPORT
+	# select TRACE_IRQFLAGS_SUPPORT
+	# select TRACE_IRQFLAGS_NMI_SUPPORT
+	# select USER_STACKTRACE_SUPPORT
 	select HAVE_ARCH_KCSAN			if X86_64
 	select PROC_PID_ARCH_STATUS		if PROC_FS
 	select HAVE_ARCH_NODE_DEV_GROUP		if X86_SGX
@@ -342,10 +342,10 @@ config OUTPUT_FORMAT
 	default "elf64-x86-64" if X86_64
 
 config LOCKDEP_SUPPORT
-	def_bool y
+	def_bool n
 
 config STACKTRACE_SUPPORT
-	def_bool y
+	def_bool n
 
 config MMU
 	def_bool y
