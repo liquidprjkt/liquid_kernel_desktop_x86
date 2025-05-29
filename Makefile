@@ -1341,8 +1341,9 @@ $(version_h): FORCE
 include/generated/utsrelease.h: include/config/kernel.release FORCE
 	$(call filechk,utsrelease.h)
 
+LINUX_GIT_HEAD := $(shell git --git-dir $(srctree)/.git rev-parse --short=12 HEAD)
 filechk_compile.h = $(srctree)/scripts/mkcompile_h \
-	"$(UTS_MACHINE)" "$(CONFIG_CC_VERSION_TEXT)"
+	"$(UTS_MACHINE)" "$(CONFIG_CC_VERSION_TEXT)" "$(LINUX_GIT_HEAD)"
 
 include/generated/compile.h: FORCE
 	$(call filechk,compile.h)

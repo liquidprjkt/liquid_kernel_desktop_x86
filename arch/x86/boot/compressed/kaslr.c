@@ -35,7 +35,7 @@
 extern unsigned long get_cmd_line_ptr(void);
 
 /* Simplified build-specific string for starting entropy. */
-static const char build_str[] = UTS_RELEASE " (" LINUX_COMPILE_BY "@"
+static const char build_str[] = UTS_RELEASE " (" LINUX_GIT_HEAD ") (" LINUX_COMPILE_BY "@"
 		LINUX_COMPILE_HOST ") (" LINUX_COMPILER ") " UTS_VERSION;
 
 static unsigned long rotate_xor(unsigned long hash, const void *area,

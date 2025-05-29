@@ -3,6 +3,7 @@
 
 UTS_MACHINE=$1
 CC_VERSION="$2"
+LINUX_GIT_HEAD=$3
 
 if test -z "$KBUILD_BUILD_USER"; then
 	LINUX_COMPILE_BY=$(whoami | sed 's/\\/\\\\/')
@@ -17,6 +18,7 @@ fi
 
 cat <<EOF
 #define UTS_MACHINE		"${UTS_MACHINE}"
+#define LINUX_GIT_HEAD		"${LINUX_GIT_HEAD}"
 #define LINUX_COMPILE_BY	"${LINUX_COMPILE_BY}"
 #define LINUX_COMPILE_HOST	"${LINUX_COMPILE_HOST}"
 #define LINUX_COMPILER		"${CC_VERSION}"
