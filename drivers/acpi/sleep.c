@@ -845,6 +845,7 @@ static const struct platform_s2idle_ops acpi_s2idle_ops = {
 	.end = acpi_s2idle_end,
 };
 
+#if 0
 void __weak acpi_s2idle_setup(void)
 {
 	if (acpi_gbl_FADT.flags & ACPI_FADT_LOW_POWER_S0)
@@ -852,6 +853,7 @@ void __weak acpi_s2idle_setup(void)
 
 	s2idle_set_ops(&acpi_s2idle_ops);
 }
+#endif
 
 static void __init acpi_sleep_suspend_setup(void)
 {
