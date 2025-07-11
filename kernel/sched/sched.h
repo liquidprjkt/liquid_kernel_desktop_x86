@@ -1583,7 +1583,7 @@ extern void __update_idle_core(struct rq *rq);
 
 static inline void update_idle_core(struct rq *rq)
 {
-	if (static_branch_unlikely(&sched_smt_present))
+	if (static_branch_likely(&sched_smt_present))
 		__update_idle_core(rq);
 }
 
