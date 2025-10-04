@@ -5,7 +5,7 @@
 pkgbase=${PACMAN_PKGBASE:-linux-upstream}
 pkgname=("${pkgbase}")
 
-_extrapackages=${PACMAN_EXTRAPACKAGES-headers api-headers debug}
+_extrapackages=${PACMAN_EXTRAPACKAGES-headers api-headers}
 for pkg in $_extrapackages; do
 	pkgname+=("${pkgbase}-${pkg}")
 done
@@ -33,7 +33,7 @@ makedepends=(
 	rsync
 	tar
 )
-options=(!debug !strip !buildflags !makeflags)
+options=(!debug strip !buildflags !makeflags)
 
 _prologue() {
 	# MAKEFLAGS from makepkg.conf override the ones inherited from kbuild.
