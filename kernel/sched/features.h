@@ -88,7 +88,11 @@ SCHED_FEAT(TTWU_QUEUE, true)
 /*
  * When doing wakeups, attempt to limit superfluous scans of the LLC domain.
  */
+#ifdef CONFIG_SCHED_CASH
+SCHED_FEAT(SIS_UTIL, false)
+#else
 SCHED_FEAT(SIS_UTIL, true)
+#endif
 
 /*
  * Issue a WARN when we do multiple update_rq_clock() calls

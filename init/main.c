@@ -1583,6 +1583,10 @@ static noinline void __init kernel_init_freeable(void)
 	smp_init();
 	sched_init_smp();
 
+#ifdef CONFIG_SCHED_CASH
+	sched_cash_init();
+#endif
+
 	workqueue_init_topology();
 	async_init();
 	padata_init();

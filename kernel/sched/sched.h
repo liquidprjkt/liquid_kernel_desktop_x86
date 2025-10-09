@@ -1115,6 +1115,10 @@ DECLARE_STATIC_KEY_FALSE(sched_uclamp_used);
  * acquire operations must be ordered by ascending &runqueue.
  */
 struct rq {
+#ifdef CONFIG_SCHED_CASH
+	struct sched_group	*groups;
+#endif
+
 	/* runqueue lock: */
 	raw_spinlock_t		__lock;
 
@@ -2091,6 +2095,10 @@ struct sched_group_capacity {
 };
 
 struct sched_group {
+#ifdef CONFIG_SCHED_CASH
+	long			factor;
+#endif
+
 	struct sched_group	*next;			/* Must be a circular list */
 	atomic_t		ref;
 
@@ -2321,6 +2329,11 @@ static inline int task_on_rq_migrating(struct task_struct *p)
 #define WF_MIGRATED		0x20 /* Internal use, task got migrated */
 #define WF_CURRENT_CPU		0x40 /* Prefer to move the wakee to the current CPU. */
 #define WF_RQ_SELECTED		0x80 /* ->select_task_rq() was called */
+
+#ifdef CONFIG_SCHED_CASH
+#define WF_AFFINE		0x100
+#define WF_AGGRO		0x200
+#endif
 
 static_assert(WF_EXEC == SD_BALANCE_EXEC);
 static_assert(WF_FORK == SD_BALANCE_FORK);
@@ -3910,5 +3923,10 @@ void sched_enq_and_set_task(struct sched_enq_and_set_ctx *ctx);
 #endif /* CONFIG_SCHED_CLASS_EXT */
 
 #include "ext.h"
+
+#ifdef CONFIG_SCHED_CASH
+extern bool cash_active __read_mostly;
+extern void sched_cash_init(void);
+#endif
 
 #endif /* _KERNEL_SCHED_SCHED_H */

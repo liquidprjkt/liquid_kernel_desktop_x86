@@ -156,6 +156,9 @@ void init_IRQ(void);
 void time_init(void);
 void poking_init(void);
 void pgtable_cache_init(void);
+#ifdef CONFIG_SCHED_CASH
+void sched_cash_init(void);
+#endif
 
 extern initcall_entry_t __initcall_start[];
 extern initcall_entry_t __initcall0_start[];

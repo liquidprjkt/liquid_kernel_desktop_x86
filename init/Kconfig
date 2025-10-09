@@ -1458,6 +1458,13 @@ config SCHED_AUTOGROUP
 	  desktop applications.  Task group autogeneration is currently based
 	  upon task session.
 
+config SCHED_CASH
+	bool "Cache-Aware Scheduling Heuristic"
+	depends on X86_64_SMP
+	depends on !SCHED_CORE
+	depends on !CPUMASK_OFFSTACK
+	depends on !ENERGY_MODEL
+
 config RELAY
 	bool "Kernel->user space relay support (formerly relayfs)"
 	select IRQ_WORK

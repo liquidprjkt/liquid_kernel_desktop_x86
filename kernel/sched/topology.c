@@ -2822,7 +2822,14 @@ match3:
 void partition_sched_domains(int ndoms_new, cpumask_var_t doms_new[],
 			     struct sched_domain_attr *dattr_new)
 {
+#ifdef CONFIG_SCHED_CASH
+	WRITE_ONCE(cash_active, false);
+	smp_mb();
+#endif
 	sched_domains_mutex_lock();
 	partition_sched_domains_locked(ndoms_new, doms_new, dattr_new);
+#ifdef CONFIG_SCHED_CASH
+	sched_cash_init();
+#endif
 	sched_domains_mutex_unlock();
 }

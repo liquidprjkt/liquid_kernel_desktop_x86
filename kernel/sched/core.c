@@ -4483,6 +4483,9 @@ int wake_up_state(struct task_struct *p, unsigned int state)
 static void __sched_fork(unsigned long clone_flags, struct task_struct *p)
 {
 	p->on_rq			= 0;
+#ifdef CONFIG_SCHED_CASH
+	p->last_ts			= 0;
+#endif
 
 	p->se.on_rq			= 0;
 	p->se.exec_start		= 0;

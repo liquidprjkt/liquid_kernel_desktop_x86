@@ -8960,6 +8960,10 @@ static void put_prev_task_fair(struct rq *rq, struct task_struct *prev, struct t
 	struct sched_entity *se = &prev->se;
 	struct cfs_rq *cfs_rq;
 
+#ifdef CONFIG_SCHED_CASH
+	smp_store_release(&prev->last_ts, sched_clock());
+#endif
+
 	for_each_sched_entity(se) {
 		cfs_rq = cfs_rq_of(se);
 		put_prev_entity(cfs_rq, se);
@@ -13606,6 +13610,10 @@ static unsigned int get_rr_interval_fair(struct rq *rq, struct task_struct *task
 	return rr_interval;
 }
 
+#ifdef CONFIG_SCHED_CASH
+#include "cash.c"
+#endif
+
 /*
  * All the scheduling class methods:
  */
@@ -13624,7 +13632,11 @@ DEFINE_SCHED_CLASS(fair) = {
 	.set_next_task          = set_next_task_fair,
 
 	.balance		= balance_fair,
+#ifdef CONFIG_SCHED_CASH
+	.select_task_rq		= cash_select_task_rq_fair,
+#else
 	.select_task_rq		= select_task_rq_fair,
+#endif
 	.migrate_task_rq	= migrate_task_rq_fair,
 
 	.rq_online		= rq_online_fair,

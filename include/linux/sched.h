@@ -908,6 +908,10 @@ struct task_struct {
 	unsigned int			core_occupation;
 #endif
 
+#ifdef CONFIG_SCHED_CASH
+	u64				last_ts;
+#endif
+
 #ifdef CONFIG_CGROUP_SCHED
 	struct task_group		*sched_task_group;
 #endif
