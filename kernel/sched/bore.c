@@ -8,10 +8,10 @@
 #include "sched.h"
 
 #ifdef CONFIG_SCHED_BORE
-u8   __read_mostly sched_burst_inherit_type     = 2;
+u8   __read_mostly sched_burst_inherit_type     = 1;
 u8   __read_mostly sched_burst_smoothness       = 1;
 u8   __read_mostly sched_burst_penalty_offset   = 24;
-uint __read_mostly sched_burst_penalty_scale    = 1536;
+uint __read_mostly sched_burst_penalty_scale    = 1600;
 uint __read_mostly sched_burst_cache_lifetime   = 75000000;
 static int __maybe_unused maxval_prio    =   39;
 static int __maybe_unused maxval_6_bits  =   63;
