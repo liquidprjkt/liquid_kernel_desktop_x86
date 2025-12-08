@@ -2805,6 +2805,9 @@ extern void wakeup_preempt(struct rq *rq, struct task_struct *p, int flags);
 # define SCHED_NR_MIGRATE_BREAK 32
 #endif
 
+#undef SCHED_NR_MIGRATE_BREAK
+#define SCHED_NR_MIGRATE_BREAK 4
+
 extern __read_mostly unsigned int sysctl_sched_nr_migrate;
 extern __read_mostly unsigned int sysctl_sched_migration_cost;
 

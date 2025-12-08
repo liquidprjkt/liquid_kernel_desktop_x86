@@ -1642,8 +1642,8 @@ sd_init(struct sched_domain_topology_level *tl,
 	*sd = (struct sched_domain){
 		.min_interval		= sd_weight,
 		.max_interval		= 2*sd_weight,
-		.busy_factor		= 16,
-		.imbalance_pct		= 117,
+		.busy_factor		= 8,
+		.imbalance_pct		= 135,
 
 		.cache_nice_tries	= 0,
 
@@ -1686,10 +1686,11 @@ sd_init(struct sched_domain_topology_level *tl,
 		sd->child->flags &= ~SD_PREFER_SIBLING;
 
 	if (sd->flags & SD_SHARE_CPUCAPACITY) {
-		sd->imbalance_pct = 110;
+		sd->busy_factor /= 2;
+		sd->imbalance_pct = 115;
 
 	} else if (sd->flags & SD_SHARE_LLC) {
-		sd->imbalance_pct = 117;
+		sd->imbalance_pct = 125;
 		sd->cache_nice_tries = 1;
 
 #ifdef CONFIG_NUMA

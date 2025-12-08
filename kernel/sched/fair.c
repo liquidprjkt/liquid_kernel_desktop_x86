@@ -96,7 +96,7 @@ unsigned int sysctl_sched_base_slice			= 700000ULL;
 static unsigned int normalized_sysctl_sched_base_slice	= 700000ULL;
 #endif /* CONFIG_SCHED_BORE */
 
-__read_mostly unsigned int sysctl_sched_migration_cost	= 500000UL;
+__read_mostly unsigned int sysctl_sched_migration_cost	= 2000000UL;
 
 static int __init setup_sched_thermal_decay_shift(char *str)
 {
